@@ -384,6 +384,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Infynix Solutions - Website Loaded Successfully! 🚀');
 });
-
-
-document.head.appendChild(style);
