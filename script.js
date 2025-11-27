@@ -121,110 +121,125 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // === CONTACT FORM HANDLING ===
-    const contactForm = document.querySelector('.contact-form');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                company: document.getElementById('company').value,
-                service: document.getElementById('service').value,
-                message: document.getElementById('message').value
-            };
+   // === CONTACT FORM HANDLING WITH EMAILJS - FIXED VERSION ===
+const contactForm = document.getElementById('contact-form');
 
-            // Validate form
-            if (!formData.name || !formData.email || !formData.message) {
-                showNotification('Please fill in all required fields.', 'error');
-                return;
-            }
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const fromName = document.getElementById('from_name').value;
+        const replyTo = document.getElementById('reply_to').value;
+        const phone = document.getElementById('phone').value;
+        const company = document.getElementById('company').value;
+        const service = document.getElementById('service').value;
+        const message = document.getElementById('message').value;
 
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(formData.email)) {
-                showNotification('Please enter a valid email address.', 'error');
-                return;
-            }
+        // Validate required fields
+        if (!fromName || !replyTo || !message || !service) {
+            showNotification('Please fill in all required fields.', 'error');
+            return;
+        }
 
-            // Show loading state
-            const submitBtn = contactForm.querySelector('.btn-primary');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(replyTo)) {
+            showNotification('Please enter a valid email address.', 'error');
+            return;
+        }
 
-            // Simulate form submission (replace with actual API call)
-            setTimeout(() => {
+        // Show loading state
+        const submitBtn = contactForm.querySelector('.btn-primary');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+
+     // Create template parameters object
+        const templateParams = {
+            name: fromName,
+            from_name: fromName,
+            user_name: fromName,
+            to_name: fromName,
+            from_email: replyTo,
+            user_email: replyTo,
+            reply_to: replyTo,
+            email: replyTo,
+            phone: phone || 'Not provided',
+            company: company || 'Not provided',
+            service: service,
+            message: message
+        };
+        // Send email using EmailJS with explicit parameters
+        emailjs.send('service_sntefqo', 'template_mfp5jjs', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                
                 // Success message
-                showNotification('Thank you! We will get back to you within 24 hours.', 'success');
+                showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
                 
                 // Reset form
                 contactForm.reset();
                 
                 // Reset button
-                submitBtn.textContent = originalText;
+                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
                 
-                // Log form data (replace with actual submission)
-                console.log('Form submitted:', formData);
+            }, function(error) {
+                console.error('FAILED...', error);
                 
-                // You can add your actual form submission here:
-                // fetch('/api/contact', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(formData)
-                // });
+                // Error message
+                showNotification('Oops! Something went wrong. Please try again or contact us directly at akshaiachu012@gmail.com', 'error');
                 
-            }, 1500);
-        });
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+    });
+}
+
+// === NOTIFICATION SYSTEM ===
+function showNotification(message, type = 'success') {
+    // Remove existing notifications
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
     }
 
-    // === NOTIFICATION SYSTEM ===
-    function showNotification(message, type = 'success') {
-        // Remove existing notifications
-        const existingNotification = document.querySelector('.notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="notification-close">&times;</button>
+    `;
 
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        `;
+    // Add to body
+    document.body.appendChild(notification);
 
-        // Add to body
-        document.body.appendChild(notification);
+    // Trigger animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
 
-        // Trigger animation
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
         setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
+            notification.remove();
+        }, 300);
+    }, 5000);
 
-        // Auto remove after 5 seconds
+    // Close button
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.classList.remove('show');
         setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 5000);
-
-        // Close button
-        const closeBtn = notification.querySelector('.notification-close');
-        closeBtn.addEventListener('click', () => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        });
-    }
+            notification.remove();
+        }, 300);
+    });
+}
 
     // === SCROLL ANIMATIONS ===
     const observerOptions = {
@@ -342,10 +357,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productLearnMoreBtn) {
         productLearnMoreBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            // You can link to a dedicated product page or show a modal
-            showNotification('Product details page coming soon!', 'success');
-            // Or navigate to a product page:
-            // window.location.href = '/products/bioenable';
+            // Navigate to BioEnable product details page
+            window.location.href = 'index2.html';
         });
     }
 

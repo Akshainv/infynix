@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioEnable - CCTV Based Face Recognition | Infynix Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+body {
+            font-family: 'Poppins', 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(180deg, #001a33 0%, #000814 50%, #002147 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.2) 0%, rgba(0, 102, 204, 0.2) 100%);
+            border: 2px solid rgba(255, 123, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.3) 0%, rgba(0, 102, 204, 0.3) 100%);
+            border-color: rgba(255, 123, 0, 0.8);
+            transform: translateX(-5px);
+            box-shadow: 0 5px 20px rgba(255, 123, 0, 0.4);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(135deg, rgba(0, 26, 51, 0.85) 0%, rgba(0, 8, 20, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 123, 0, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(0, 102, 204, 0.15) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.2) 0%, rgba(0, 102, 204, 0.2) 100%);
+            border: 2px solid rgba(255, 123, 0, 0.5);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #FF7B00;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
+        }
+
+        .hero-title {
+            font-size: 44px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FF7B00 0%, #FF9933 25%, #0066CC 75%, #0080FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 10px rgba(255, 123, 0, 0.5));
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            font-weight: 500;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+       /* Main Banner */
+.main-banner {
+    margin: 60px auto;
+    max-width: 1200px;
+    padding: 0 30px;
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: linear-gradient(135deg, rgba(0, 26, 51, 0.95) 0%, rgba(0, 8, 20, 0.95) 100%);
+    border-radius: 12px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 123, 0, 0.2);
+}
+
+.banner-text {
+    flex: 1;
+}
+
+.banner-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.banner-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+}
+
+.banner-image {
+    flex: 1;
+    max-width: 500px;
+}
+
+.banner-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 123, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .banner-content {
+        flex-direction: column;
+        padding: 40px 30px;
+        gap: 30px;
+    }
+    
+    .banner-image {
+        max-width: 100%;
+    }
+    
+    .banner-title {
+        font-size: 26px;
+    }
+    
+    .banner-description {
+        font-size: 14px;
+    }
+}
+
+        /* Overview Section */
+        .overview-section {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-label {
+            color: #FF7B00;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.06) 0%, rgba(0, 102, 204, 0.06) 100%);
+            padding: 20px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 123, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.25);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .overview-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: #FF7B00;
+        }
+
+        .overview-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 40px 0;
+            background: linear-gradient(180deg, rgba(0, 8, 20, 0.3) 0%, rgba(0, 26, 51, 0.3) 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.06) 0%, rgba(0, 102, 204, 0.06) 100%);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 123, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .feature-content {
+            padding: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #FF7B00;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.5;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .feature-list li {
+            padding: 5px 0;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: #FF7B00;
+            font-weight: bold;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 40px 0;
+        }
+
+        .benefits-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .benefits-image {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%),
+                        url('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 123, 0, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.06) 0%, rgba(0, 102, 204, 0.06) 100%);
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            border-color: rgba(255, 123, 0, 0.5);
+            transform: translateX(5px);
+        }
+
+        .benefit-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #FF7B00;
+            font-weight: 800;
+        }
+
+        .benefit-item p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            font-size: 11px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 40px 0 60px 0;
+        }
+
+        .demo-banner {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(0, 26, 51, 0.5) 0%, rgba(0, 8, 20, 0.5) 100%),
+                        url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            border: 1px solid rgba(255, 123, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .demo-content {
+            max-width: 550px;
+        }
+
+        .demo-content h2 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .demo-content p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF7B00 0%, #FF9933 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 123, 0, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .overview-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+            .benefits-wrapper { grid-template-columns: 1fr; }
+            .benefits-image { height: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 32px; }
+            .hero-banner { height: 45vh; min-height: 350px; }
+            .overview-grid { grid-template-columns: 1fr; }
+            .banner-image { height: 250px; }
+            .demo-banner { height: 350px; }
+            .section-title { font-size: 24px; }
+            .container { padding: 0 20px; }
+            .main-banner { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </a>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <div class="product-badge">Advanced Biometric Solution</div>
+            <h1 class="hero-title">
+                BioEnable <span class="gradient-text">Face Recognition</span>
+            </h1>
+            <p class="hero-subtitle">
+                Transform your workplace security with cutting-edge CCTV-based facial recognition technology. Real-time monitoring, automated attendance, and enterprise-grade security.
+            </p>
+        </div>
+    </section>
+<!-- Main Banner -->
+<div class="main-banner">
+    <div class="banner-content">
+        <div class="banner-text">
+            <h2 class="banner-title">CCTV Based <span class="gradient-text">Advanced Recognition</span></h2>
+            <p class="banner-description">Leverage existing IP cameras for seamless employee tracking, face verification, and comprehensive movement monitoring across your facility.</p>
+        </div>
+        <div class="banner-image">
+            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1600&q=80" alt="CCTV Recognition System">
+        </div>
+    </div>
+</div>
+
+    <!-- Overview Section -->
+    <section class="overview-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">SOLUTION OVERVIEW</div>
+                <h2 class="section-title">Complete <span class="gradient-text">Recognition System</span></h2>
+                <p class="section-description">
+                    BioEnable integrates seamlessly with your existing IP camera infrastructure to deliver powerful facial recognition capabilities without additional hardware investments.
+                </p>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1604754742629-3e5728249d73?w=800&q=80');"></div>
+                    <h3>CCTV Integration</h3>
+                    <p>Works seamlessly with your existing camera infrastructure. No new hardware required for deployment.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=800&q=80');"></div>
+                    <h3>Face Verification</h3>
+                    <p>Advanced AI algorithms provide accurate real-time employee identification with 99.9% precision.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80');"></div>
+                    <h3>Movement Tracking</h3>
+                    <p>Comprehensive monitoring of employee activity throughout your facility for enhanced security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">KEY FEATURES</div>
+                <h2 class="section-title">Powerful <span class="gradient-text">Capabilities</span></h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80');"></div>
+                    <div class="feature-content">
+                        <h3>Automated Attendance</h3>
+                        <p>Eliminate manual attendance tracking and human errors with fully automated time and attendance management system.</p>
+                        <ul class="feature-list">
+                            <li>Eliminates punch card systems</li>
+                            <li>Prevents buddy punching</li>
+                            <li>Generates precise attendance records</li>
+                            <li>Reduces administrative workload</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80');"></div>
+                    <div class="feature-content">
+                        <h3>Real-Time Monitoring</h3>
+                        <p>Receive instant updates and notifications for enhanced workforce oversight and security management capabilities.</p>
+                        <ul class="feature-list">
+                            <li>Instant entry/exit alerts</li>
+                            <li>Live dashboard monitoring</li>
+                            <li>Immediate notification system</li>
+                            <li>Continuous workforce oversight</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80');"></div>
+                    <div class="feature-content">
+                        <h3>Enhanced Security</h3>
+                        <p>AI-powered anti-spoofing technology ensures the highest level of security and data integrity protection.</p>
+                        <ul class="feature-list">
+                            <li>Advanced liveness detection</li>
+                            <li>Prevents photo/video spoofing</li>
+                            <li>Bank-grade encryption standards</li>
+                            <li>Secure data storage protocols</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image" style="background-image: linear-gradient(135deg, rgba(0, 26, 51, 0.4) 0%, rgba(0, 8, 20, 0.4) 100%), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80');"></div>
+                    <div class="feature-content">
+                        <h3>Comprehensive Reporting</h3>
+                        <p>Access detailed analytics and reports to gain valuable insights into workforce patterns and attendance trends.</p>
+                        <ul class="feature-list">
+                            <li>Detailed attendance reports</li>
+                            <li>Movement pattern analysis</li>
+                            <li>Exportable data formats (PDF, Excel)</li>
+                            <li>Custom report generation tools</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">BUSINESS BENEFITS</div>
+                <h2 class="section-title">Transform Your <span class="gradient-text">Operations</span></h2>
+            </div>
+            <div class="benefits-wrapper">
+                <div class="benefits-image"></div>
+                <div class="benefits-content">
+                    <ul class="benefits-list">
+                        <li class="benefit-item">
+                            <h4>Seamless Integration</h4>
+                            <p>Works effortlessly with existing CCTV infrastructure, reducing implementation costs and deployment time significantly.</p>
+                        </li>
+                        <li class="benefit-item">
+                            <h4>Reduced Costs</h4>
+                            <p>No additional hardware required. Maximize current camera investments while gaining advanced recognition capabilities.</p>
+                        </li>
+                        <li class="benefit-item">
+                            <h4>Infrastructure Leverage</h4>
+                            <p>Utilize existing network and camera setup for cost-effective security and attendance management solution.</p>
+                        </li>
+                        <li class="benefit-item">
+                            <h4>Scalability</h4>
+                            <p>Easily expandable to accommodate growing workforce and multiple facility locations without infrastructure changes.</p>
+                        </li>
+                        <li class="benefit-item">
+                            <h4>Enhanced Productivity</h4>
+                            <p>Eliminate time-consuming manual processes and reduce administrative overhead by up to 80 percent.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo-section">
+        <div class="container">
+            <div class="demo-banner">
+                <div class="demo-content">
+                    <h2>Experience BioEnable <span class="gradient-text">In Action</span></h2>
+                    <p>Schedule a live demonstration to see how BioEnable can transform your workplace security and attendance management. Get a customized proposal tailored to your specific needs.</p>
+                    <a href="index.html#contact" class="btn btn-primary">Schedule Your Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.overview-card, .feature-card, .benefit-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
